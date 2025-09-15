@@ -9,7 +9,7 @@ const config = {
 let goalZone, piece;
 
 function preload() {
-  this.load.image('piece', 'assets/piece.png');   // 200x200 transparent png
+  this.load.image('piece', 'raydickpick.jpg');   // 200x200 transparent png
 }
 
 function create() {
@@ -17,7 +17,9 @@ function create() {
   goalZone = this.add.rectangle(650, 225, 180, 180, 0x2a9d8f, 0.25).setStrokeStyle(3, 0x2a9d8f);
 
   // draggable piece
-  piece = this.add.image(200, 225, 'piece').setInteractive({ draggable: true });
+  piece = this.add.image(200,225,'piece')
+  .setInteractive({ draggable:true })
+  .setScale( Math.min(180/piece.width, 180/piece.height, 1) ); 
   this.input.setDraggable(piece);
 
   // drag handlers (mouse + touch work the same)
