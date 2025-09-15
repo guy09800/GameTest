@@ -14,16 +14,26 @@ function preload() {
 
 function create() {
   // goal area
-  goalZone = this.add.rectangle(650, 225, 180, 180, 0x2a9d8f, 0.25).setStrokeStyle(3, 0x2a9d8f);
+  goalZone = this.add.rectangle(650, 225, 180, 180, 0x2a9d8f, 0.25)
+    .setStrokeStyle(3, 0x2a9d8f);
+
+  // scale to fit inside 180×180
+  const img = this.textures.get('piece').getSourceImage();
+  const s = Math.min(180 / img.width, 180 / img.height, 1);
 
   // draggable piece
-  piece = this.add.image(200,225,'piece')
-  .setInteractive({ draggable:true })
-  .setScale( Math.min(180/piece.width, 180/piece.height, 1) ); 
+  piece = this.add.image(200, 225, 'piece').setScale(s).setInteractive();
   this.input.setDraggable(piece);
 
-  // drag handlers (mouse + touch work the same)
-  this.input.on('drag', (_p, obj, x, y) => { obj.x = x; obj.y = y; });
+  // drag handlers
+  this.input.on('drag', (_p, o, x, y) => { o.x = x; o.y = y; });
+  this.input.on('dragend', (_p, o) => {
+    if (Math.abs(o.x - goalZone.x) < 60 && Math.abs(o.y - goalZone.y) < 60) {
+      this.add.text(400, 50, 'Solved', { fontFamily: 'sans-serif', fontSize: 48, color: '#fff' }).setOrigin(0.5);
+      localStorage.setItem('puzzle_complete', '1');
+    }
+  });
+}
 
   // simple “one-level” win condition
   this.input.on('dragend', (_p, obj) => {
