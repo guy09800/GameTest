@@ -9,7 +9,7 @@ const config = {
 let goalZone, piece;
 
 function preload() {
-  this.load.image('piece', 'raydickpick.jpg');   // 200x200 transparent png
+  this.load.image('piece', 'raydickpick.jpeg');   // 200x200 transparent png
 }
 
 function create() {
